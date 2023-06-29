@@ -1,6 +1,6 @@
 <template>
 <div class="container">
-<h1>
+<h1 class="emphasize">
     {{ page.pageTitle }}
 </h1>
 <p>
@@ -16,3 +16,8 @@ props:['page']
 
 }
 </script>
+<style scoped>
+.emphasize{
+    color:blue;
+}
+</style>
