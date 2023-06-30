@@ -18,19 +18,19 @@
             </div>
             <div class="col">
                 <div class="mb-3">
-                    <label for="" class="form-label" >
+                    <label for="" class="form-label">
                         Link Text
                     </label>
-                    <input type="text" class="form-control" v-model="linkText"/>
+                    <input type="text" class="form-control" v-model="linkText" />
                     <div class="mb-3">
                         <label for="" class="form-label">
                             Link URL
                         </label>
-                        <input type="text" class="form-control"  v-model="linkUrl" />
+                        <input type="text" class="form-control" v-model="linkUrl" />
                     </div>
                     <div class="row mb-3">
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox">
+                            <input class="form-check-input" type="checkbox" v-model="published">
                             <label class="form-check-label" for="gridCheckl">
                                 PubLished
                             </label>
@@ -39,7 +39,7 @@
                 </div>
             </div>
             <div class="mb-3">
-                <button class="btn btn-primary" @click.prevent="submitForm">
+                <button class="btn btn-primary" :disabled="isFormInvalid" @click.prevent="submitForm">
                     Create Page
                 </button>
             </div>
@@ -50,28 +50,49 @@
 <script>
 export default {
     props: ['pageCreated'],
-    date() {
-        return {
-            pageTitle: '',
-            content:'',
-            linkText:'',
-            linkUrl:''
+    computed: {
+        isFormInvalid() {
+            return !this.pageTitle || !this.content || !this.linkText || !this.linkUrl;
         }
     },
-    methods:{
-        submitForm(){
-if(!this.pageTitle||this.content||this.linkText||this.linkUrl){
-    alert('please fill the form');
-    return;
-}
-this.pageCreated({
-    pageTitle:this.pageTitle,
-    continue:this.content,
-link:{
-    text:this.linkText,
-    url:this.linkUrl,
-}
-})
+    data() {
+        return {
+            pageTitle: '',
+            content: '',
+            linkText: '',
+            linkUrl: '',
+            published:true
+        }
+    },
+    methods: {
+        submitForm() {
+            if (!this.pageTitle || !this.content || !this.linkText || !this.linkUrl) {
+                alert('please fill the form');
+                return;
+            }
+            this.pageCreated({
+                pageTitle: this.pageTitle,
+                continue: this.content,
+                link: {
+                    text: this.linkText,
+                    url: this.linkUrl
+                },
+                published:this.published
+            },
+            );
+            this.pageTitle= '',
+            this.content= '',
+            this.linkText= '',
+            this.linkUrl= '',
+            published=true
+
+        }
+    },
+    watch:{
+        pageTitle(newTitle,oldTitle){
+            if(this.linkText===oldTitle){
+                this.linkText=newTitle;
+            }
         }
     }
 }
