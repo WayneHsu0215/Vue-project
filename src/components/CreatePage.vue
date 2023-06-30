@@ -1,0 +1,80 @@
+<template>
+    <form action="" class="container mb-3">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="mb-3">
+                    <label for="" class="form-lable">
+                        Page Title
+                    </label>
+                    <input id="" type="text" class="form-control" v-model="pageTitle">
+                </div>
+                <div class="mb-3">
+                    <label for="" class="form-lable">
+                        content
+                    </label>
+                    <textarea type="text" class="form-control" rows="5" v-model="content">
+                    </textarea>
+                </div>
+            </div>
+            <div class="col">
+                <div class="mb-3">
+                    <label for="" class="form-label" >
+                        Link Text
+                    </label>
+                    <input type="text" class="form-control" v-model="linkText"/>
+                    <div class="mb-3">
+                        <label for="" class="form-label">
+                            Link URL
+                        </label>
+                        <input type="text" class="form-control"  v-model="linkUrl" />
+                    </div>
+                    <div class="row mb-3">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox">
+                            <label class="form-check-label" for="gridCheckl">
+                                PubLished
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="mb-3">
+                <button class="btn btn-primary" @click.prevent="submitForm">
+                    Create Page
+                </button>
+            </div>
+        </div>
+
+    </form>
+</template>
+<script>
+export default {
+    props: ['pageCreated'],
+    date() {
+        return {
+            pageTitle: '',
+            content:'',
+            linkText:'',
+            linkUrl:''
+        }
+    },
+    methods:{
+        submitForm(){
+if(!this.pageTitle||this.content||this.linkText||this.linkUrl){
+    alert('please fill the form');
+    return;
+}
+this.pageCreated({
+    pageTitle:this.pageTitle,
+    continue:this.content,
+link:{
+    text:this.linkText,
+    url:this.linkUrl,
+}
+})
+        }
+    }
+}
+
+
+</script>
