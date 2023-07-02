@@ -6,9 +6,7 @@
         v-if="pages.length>0">
         </page-viewer> -->
 
-        <create-page :page-created="pageCreated">
-
-        </create-page>
+        <create-page @page-created="pageCreated"></create-page>
     </div>
 </template>
 

@@ -49,7 +49,23 @@
 </template>
 <script>
 export default {
-    props: ['pageCreated'],
+
+    emits: {
+        pageCreated(pageTitle,content,link) {
+            
+            if(!pageTitle){
+                return false;
+            }
+            if(!content){
+                return false;
+            }
+            if(!link||!link.text||!link.url){
+                return false;
+            }
+            return true;
+        }
+
+    },
     computed: {
         isFormInvalid() {
             return !this.pageTitle || !this.content || !this.linkText || !this.linkUrl;
@@ -61,8 +77,8 @@ export default {
             content: '',
             linkText: '',
             linkUrl: '',
-            published:true
-        }
+            published: true
+        };
     },
     methods: {
         submitForm() {
@@ -70,28 +86,38 @@ export default {
                 alert('please fill the form');
                 return;
             }
-            this.pageCreated({
+
+            this.$emit('pageCreated', {
                 pageTitle: this.pageTitle,
-                continue: this.content,
+                content: this.content,
                 link: {
                     text: this.linkText,
                     url: this.linkUrl
                 },
-                published:this.published
-            },
-            );
-            this.pageTitle= '',
-            this.content= '',
-            this.linkText= '',
-            this.linkUrl= '',
-            published=true
+                published: this.published
+            });
+            // this.pageCreated({
+            //     pageTitle: this.pageTitle,
+            //     continue: this.content,
+            //     link: {
+            //         text: this.linkText,
+            //         url: this.linkUrl
+            //     },
+            //     published:this.published
+            // },
+            // );
+            this.pageTitle = '',
+                this.content = '',
+                this.linkText = '',
+                this.linkUrl = '',
+                this.published = true
 
         }
     },
-    watch:{
-        pageTitle(newTitle,oldTitle){
-            if(this.linkText===oldTitle){
-                this.linkText=newTitle;
+    watch: {
+        pageTitle(newTitle, oldTitle) {
+            if (this.linkText === oldTitle) {
+                this.linkText = newTitle;
             }
         }
     }
